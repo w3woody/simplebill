@@ -190,6 +190,13 @@ void GregorianShortFormat(uint32_t count, char *date)
 	sprintf(date,"%.3s %d/%d",GWeek[dow],d.month,d.day);
 }
 
+void GregorianNumberFormat(uint32_t count, char *date)
+{
+	CalendarDate d = GregorianCalendar(count);
+	
+	sprintf(date,"%d/%d/%d",d.month,d.day,d.year);
+}
+
 void GregorianLongFormat(uint32_t count, char *date)
 {
 	CalendarDate d = GregorianCalendar(count);

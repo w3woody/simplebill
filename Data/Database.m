@@ -579,7 +579,7 @@ static int VersionCallback(void *db, int colCount, char **data, char **name)
 	 */
 	
 	sqlite3_stmt *query;
-	int result = sqlite3_prepare_v2(sql, "SELECT projectid, billindex, date, rate, paid, notes FROM bill ORDER BY date", -1, &query, NULL);
+	int result = sqlite3_prepare_v2(sql, "SELECT id, projectid, billindex, date, rate, paid, notes FROM bill ORDER BY date", -1, &query, NULL);
 	if (result != SQLITE_OK) return;
 	
 	billData = [[NSMutableArray alloc] init];
@@ -596,13 +596,14 @@ static int VersionCallback(void *db, int colCount, char **data, char **name)
 			data.timeData = [[NSMutableArray alloc] init];
 			data.totalHours = 0;
 			
-			data.projetID = sqlite3_column_int(query, 0);
-			data.billIndex = sqlite3_column_int(query, 1);
-			data.date = sqlite3_column_int(query, 2);
-			data.rate = sqlite3_column_int(query, 3);
-			data.paid = (sqlite3_column_int(query, 4) == 0) ? NO : YES;
+			data.sqliteID = sqlite3_column_int(query, 0);
+			data.projetID = sqlite3_column_int(query, 1);
+			data.billIndex = sqlite3_column_int(query, 2);
+			data.date = sqlite3_column_int(query, 3);
+			data.rate = sqlite3_column_int(query, 4);
+			data.paid = (sqlite3_column_int(query, 5) == 0) ? NO : YES;
 				
-			const unsigned char *str = sqlite3_column_text(query, 5);
+			const unsigned char *str = sqlite3_column_text(query, 6);
 			int len = sqlite3_column_bytes(query, 6);
 			
 			data.notes = [[NSString alloc] initWithBytes:str length:len encoding:NSUTF8StringEncoding];
@@ -955,7 +956,7 @@ static int VersionCallback(void *db, int colCount, char **data, char **name)
 	BillData *b = billData[billIndex];
 	
 	sqlite3_stmt *query;
-	int result = sqlite3_prepare_v2(sql, "UPDATE paid = ? WHERE id = ?", -1, &query, NULL);
+	int result = sqlite3_prepare_v2(sql, "UPDATE bill SET paid = ? WHERE id = ?", -1, &query, NULL);
 	if (result != SQLITE_OK) {
 		return NO;
 	}
@@ -981,7 +982,7 @@ static int VersionCallback(void *db, int colCount, char **data, char **name)
 	BillData *b = billData[billIndex];
 	
 	sqlite3_stmt *query;
-	int result = sqlite3_prepare_v2(sql, "UPDATE notes = ? WHERE id = ?", -1, &query, NULL);
+	int result = sqlite3_prepare_v2(sql, "UPDATE bill SET notes = ? WHERE id = ?", -1, &query, NULL);
 	if (result != SQLITE_OK) {
 		return NO;
 	}

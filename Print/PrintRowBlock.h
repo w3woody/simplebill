@@ -15,8 +15,9 @@
 
 @interface PrintRowBlock : NSObject <ContentBlock>
 
-- (instancetype)init;
+- (instancetype)initWithBackground:(NSColor *)backgroundColor padding:(NSInteger)padding;
 
-- (void)insertColumn:(id<ContentBlock>)block;
+- (NSInteger)insertColumn:(id<ContentBlock>)block withMargin:(NSInteger)margin;
+- (void)showVerticalColumns:(BOOL)flag;
 
 @end

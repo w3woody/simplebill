@@ -14,10 +14,12 @@
 
 @interface TableBlock : NSObject <ContentBlock>
 
-- (instancetype)init;
+- (instancetype)initWithMaximumHeight:(NSInteger)h;
 
-- (void)insertRow:(id<ContentBlock>)row;
+// Returns false if we failed to finish entering and need a new page
+- (BOOL)insertRow:(id<ContentBlock>)row;
 
+- (void)showHorizontalRows:(BOOL)flag;
 
 @end
 

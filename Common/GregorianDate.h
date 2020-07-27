@@ -45,6 +45,7 @@ extern uint8_t GregorianDayOfWeek(uint32_t count);
 
 extern void GregorianFormat(uint32_t count, char *date);
 extern void GregorianShortFormat(uint32_t count, char *date);
+extern void GregorianNumberFormat(uint32_t count, char *date);
 extern void GregorianLongFormat(uint32_t count, char *date);
 extern const char *GregorianMonthName(uint8_t month);
 

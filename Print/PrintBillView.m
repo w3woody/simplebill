@@ -15,6 +15,7 @@
 #import "ProjectData.h"
 #import "TimeDataRecord.h"
 #import "ProjectPerson.h"
+#import "TableBuilder.h"
 
 /*
  *	Printer
@@ -41,16 +42,20 @@
 		centerPara.alignment = NSTextAlignmentCenter;
 		 
 		NSMutableParagraphStyle *rightPara = [[NSMutableParagraphStyle alloc] init];
-		centerPara.alignment = NSTextAlignmentRight;
+		rightPara.alignment = NSTextAlignmentRight;
 		
+		NSFont *tiny = [NSFont fontWithName:@"Helvetica" size:8];
 		NSFont *small = [NSFont fontWithName:@"Helvetica" size:9];
-		NSFont *normal = [NSFont fontWithName:@"Helvetica" size:11];
+		NSFont *normal = [NSFont fontWithName:@"Helvetica" size:10];
 		NSFont *title = [NSFont fontWithName:@"Helvetica" size:22];
 		
 		NSDictionary *centerSmallAttr;
 		NSDictionary *pageNumberAttr;
 		NSDictionary *normalTextAttr;
 		NSDictionary *titleTextAttr;
+		NSDictionary *headerTextAttr;
+		NSDictionary *tableTextAttr;
+		NSDictionary *rightTableAttr;
 		
 		centerSmallAttr = @{ NSFontAttributeName: small,
 							 NSForegroundColorAttributeName: [NSColor blackColor],
@@ -58,6 +63,16 @@
 		};
 		pageNumberAttr = @{ NSFontAttributeName: small,
 							NSForegroundColorAttributeName: [NSColor blackColor],
+							NSParagraphStyleAttributeName: rightPara
+		};
+		headerTextAttr = @{ NSFontAttributeName: tiny,
+							NSForegroundColorAttributeName: [NSColor blackColor]
+		};
+		tableTextAttr = @{ NSFontAttributeName: small,
+						   NSForegroundColorAttributeName: [NSColor blackColor]
+		};
+		rightTableAttr = @{ NSFontAttributeName: small,
+						    NSForegroundColorAttributeName: [NSColor blackColor],
 							NSParagraphStyleAttributeName: rightPara
 		};
 		normalTextAttr = @{ NSFontAttributeName: normal,
@@ -121,7 +136,7 @@
 			 *	Add the date and from address
 			 */
 			
-			r = CGRectMake(324,0,paperSize.width-324-72,72);
+			r = CGRectMake(252,0,paperSize.width-324-margins.left,72);
 			GregorianLongFormat((uint32_t)b.date, buffer);
 			block = [[PrintBlock alloc] initWithText:[NSString stringWithUTF8String:buffer] attributes:normalTextAttr at:r];
 			[p insertFlowingBlock:block withMargin:12];
@@ -133,17 +148,72 @@
 			 *	Add the too address and salutation block
 			 */
 			
-			r = CGRectMake(72,0,paperSize.width - 144,144);
+			r = CGRectMake(0,0,paperSize.width - margins.left - margins.right,144);
 			block = [[PrintBlock alloc] initWithText:b.project.toAddress attributes:normalTextAttr at:r];
 			[p insertFlowingBlock:block withMargin:12];
 			
-			r = CGRectMake(72,0,paperSize.width - 144,144);
+			r = CGRectMake(0,0,paperSize.width - margins.left - margins.right,144);
 			block = [[PrintBlock alloc] initWithText:b.project.salutation attributes:normalTextAttr at:r];
 			[p insertFlowingBlock:block withMargin:24];
 			
 			/*
-			 *	 
+			 *	Insert table of hours
 			 */
+			 
+			NSInteger rest = paperSize.width - margins.left - margins.right - (54 + 54 + 72 + 12 * 4);
+			
+			TableBuilder *tb = [[TableBuilder alloc] initWithHorizontalMargin:6 verticalMargin:3];
+			[tb setHeaderAttributes:headerTextAttr backgroundColor:[NSColor colorWithWhite:0.95 alpha:1]];
+			[tb setTextAttributes:tableTextAttr];
+			[tb setRowWidths:@[ @54, @36, @72, @(rest) ]];
+			
+			[tb addHeader:@"Date" colSpan:1];
+			[tb addHeader:@"Hours" colSpan:1];
+			[tb addHeader:@"Description" colSpan:2];
+			
+			for (TimeDataRecord *tr in b.timeData) {
+				[tb nextRow];
+				
+				GregorianNumberFormat(tr.dayCount, buffer);
+				[tb addCell:[NSString stringWithUTF8String:buffer] widthSpan:1];
+				
+				FormatHour(tr.billHours, buffer);
+				[tb addCell:[NSString stringWithUTF8String:buffer] widthSpan:1 attributes:rightTableAttr];
+				
+				[tb addCell:tr.itemDesc widthSpan:2];
+			}
+			
+			/*
+			 *	Add sum
+			 */
+			
+			[tb nextRow];
+			[tb addCell:@"" widthSpan:1];
+			FormatHour((uint32_t)b.totalHours,buffer);
+			[tb addCell:[NSString stringWithUTF8String:buffer] widthSpan:1 attributes:rightTableAttr];
+			
+			FormatAmount((uint32_t)b.rate, buffer);
+			[tb addCell:[NSString stringWithFormat:@"@ %s/hr", buffer] widthSpan:1];
+			
+			FormatAmount((uint32_t)b.totalBill, buffer);
+			[tb addCell:[NSString stringWithFormat:@"Total Due: %s",buffer] widthSpan:1 attributes:rightTableAttr];
+			
+			// Right align cell entry
+			
+			[tb populatePageFlow:p];
+			
+			/*
+			 *	Insert the EIN if present
+			 */
+			
+			NSString *ein = b.project.einValue;
+			if ([ein length] != 0) {
+				NSString *msg = [NSString stringWithFormat:@"Tax ID: %@",ein];
+				
+				r = CGRectMake(0,0,paperSize.width - margins.left - margins.right,144);
+				block = [[PrintBlock alloc] initWithText:msg attributes:centerSmallAttr at:r];
+				[p insertFlowingBlock:block withMargin:12];
+			}
 		}
 		
 		/*

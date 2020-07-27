@@ -512,7 +512,7 @@
                                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                                                 <tableColumns>
-                                                                                    <tableColumn identifier="billed" editable="NO" width="40" minWidth="40" maxWidth="1000" id="43a-et-hOf">
+                                                                                    <tableColumn identifier="billed" editable="NO" width="90" minWidth="40" maxWidth="1000" id="43a-et-hOf">
                                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Billed">
                                                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -545,7 +545,7 @@
                                                                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                         </textFieldCell>
                                                                                     </tableColumn>
-                                                                                    <tableColumn identifier="description" editable="NO" width="321" minWidth="10" maxWidth="3.4028234663852886e+38" id="C9u-O6-cXx">
+                                                                                    <tableColumn identifier="description" editable="NO" width="271" minWidth="10" maxWidth="3.4028234663852886e+38" id="C9u-O6-cXx">
                                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Description">
                                                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1306,7 +1306,7 @@ Gw
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <size key="minSize" width="335" height="80"/>
-                                            <size key="maxSize" width="335" height="10000000"/>
+                                            <size key="maxSize" width="350" height="10000000"/>
                                             <attributedString key="textStorage">
                                                 <fragment content="Your address">
                                                     <attributes>
@@ -1344,7 +1344,7 @@ Gw
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <size key="minSize" width="335" height="80"/>
-                                            <size key="maxSize" width="335" height="10000000"/>
+                                            <size key="maxSize" width="350" height="10000000"/>
                                             <attributedString key="textStorage">
                                                 <fragment content="Address of company">
                                                     <attributes>
@@ -1382,7 +1382,7 @@ Gw
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <size key="minSize" width="335" height="80"/>
-                                            <size key="maxSize" width="335" height="10000000"/>
+                                            <size key="maxSize" width="350" height="10000000"/>
                                             <attributedString key="textStorage">
                                                 <fragment>
                                                     <string key="content">Thank you for your business. If you have any questions please contact me at (your e-mail address) or by phone at (your phone number).</string>

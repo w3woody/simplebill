@@ -25,6 +25,7 @@
 		EFAB8EA124CE68FE00C2E8BD /* PrintRowBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB8EA024CE68FE00C2E8BD /* PrintRowBlock.m */; };
 		EFAB8EA524CE6B5700C2E8BD /* ContentOffsetBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB8EA424CE6B5600C2E8BD /* ContentOffsetBlock.m */; };
 		EFAB8EA824CE6E8E00C2E8BD /* TableBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB8EA724CE6E8E00C2E8BD /* TableBlock.m */; };
+		EFAB8EAE24CF49E100C2E8BD /* TableBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAB8EAD24CF49E100C2E8BD /* TableBuilder.m */; };
 		EFF8E72024C4F25100425F35 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EFF8E71F24C4F25100425F35 /* AppDelegate.m */; };
 		EFF8E72524C4F25200425F35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFF8E72424C4F25200425F35 /* Assets.xcassets */; };
 		EFF8E72824C4F25200425F35 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFF8E72624C4F25200425F35 /* Main.storyboard */; };
@@ -74,6 +75,8 @@
 		EFAB8EA424CE6B5600C2E8BD /* ContentOffsetBlock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ContentOffsetBlock.m; sourceTree = "<group>"; };
 		EFAB8EA624CE6E8E00C2E8BD /* TableBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableBlock.h; sourceTree = "<group>"; };
 		EFAB8EA724CE6E8E00C2E8BD /* TableBlock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableBlock.m; sourceTree = "<group>"; };
+		EFAB8EAC24CF49E100C2E8BD /* TableBuilder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TableBuilder.h; sourceTree = "<group>"; };
+		EFAB8EAD24CF49E100C2E8BD /* TableBuilder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TableBuilder.m; sourceTree = "<group>"; };
 		EFF8E71B24C4F25100425F35 /* Billing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Billing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFF8E71E24C4F25100425F35 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		EFF8E71F24C4F25100425F35 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -136,6 +139,8 @@
 				EFAB8EA724CE6E8E00C2E8BD /* TableBlock.m */,
 				EFAB8E9C24CE5BD100C2E8BD /* PrintPageFlow.h */,
 				EFAB8E9D24CE5BD100C2E8BD /* PrintPageFlow.m */,
+				EFAB8EAC24CF49E100C2E8BD /* TableBuilder.h */,
+				EFAB8EAD24CF49E100C2E8BD /* TableBuilder.m */,
 				EFAB8E9624CE519800C2E8BD /* PrintBillView.h */,
 				EFAB8E9724CE519800C2E8BD /* PrintBillView.m */,
 			);
@@ -339,6 +344,7 @@
 				EF283CDB24CA17DD00BDFC41 /* EditTimeViewController.m in Sources */,
 				EFAB8E9824CE519800C2E8BD /* PrintBillView.m in Sources */,
 				EF283CCA24C9105800BDFC41 /* TimeDataRecord.m in Sources */,
+				EFAB8EAE24CF49E100C2E8BD /* TableBuilder.m in Sources */,
 				EFAB8EA524CE6B5700C2E8BD /* ContentOffsetBlock.m in Sources */,
 				EFAB8E8E24CDCBB300C2E8BD /* EditBillViewController.m in Sources */,
 				EF283CD124C9E76200BDFC41 /* NSColorView.m in Sources */,

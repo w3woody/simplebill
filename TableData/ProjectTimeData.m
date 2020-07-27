@@ -12,6 +12,7 @@
 #import "TimeDataRecord.h"
 #import "FormatUtil.h"
 #import "GregorianDate.h"
+#import "ProjectData.h"
 
 @interface ProjectTimeData ()
 @property (weak, nonatomic) IBOutlet NSTableView *tableView;
@@ -58,11 +59,15 @@
 {
 	char buffer[32];
 	TimeDataRecord *tdata = [self.database timeRecord:row inProject:self.projectIndex];
+	ProjectData *data = [self.database projectAtIndex:self.projectIndex];
 	
 	if ([tableColumn.identifier isEqualToString:@"billed"]) {
 		// Should be handled with more finesse.
 		if (tdata.billID == 0) return @"";
-		return [NSString stringWithFormat:@"%d",(int)tdata.billID];
+		
+		NSInteger billIndex = tdata.billID + data.billingStartIndex - 1;
+		
+		return [NSString stringWithFormat:@"%@-%d",data.billingPrefix,(int)billIndex];
 	} else if ([tableColumn.identifier isEqualToString:@"date"]) {
 		GregorianFormat(tdata.dayCount,buffer);
 		return [NSString stringWithUTF8String:buffer];

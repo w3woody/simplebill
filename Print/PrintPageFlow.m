@@ -57,7 +57,7 @@
 
 /*
  *	This will return NO if this doesn't fit. If that's the case, create a new
- *	page.
+ *	page. Note this is placed relative to the margins.
  */
 - (BOOL)insertFlowingBlock:(id<ContentBlock>)block withMargin:(NSInteger)margin
 {
@@ -81,7 +81,7 @@
 	}
 	
 	NSPoint pos;
-	pos.x = size.origin.x;
+	pos.x = size.origin.x + margins.left;
 	pos.y = ypos + margins.top + size.origin.y;
 	
 	ContentOffsetBlock *b = [[ContentOffsetBlock alloc] init];
@@ -93,6 +93,29 @@
 	prevMargin = margin;
 	
 	return YES;
+}
+
+/**
+ *	Returns the number of points between the current position and the bottom
+ *	given the specified top margin. This is used by the table builder to
+ *	properly break the table into table blocks.
+ */
+- (NSInteger)bottomSpaceWithMargin:(NSInteger)margin
+{
+	NSInteger ypos;
+	if (pagePos != 0) {
+		/*
+		 *	Bigger of the two margins.
+		 */
+		
+		NSInteger bump = margin;
+		if (bump < prevMargin) bump = prevMargin;
+		ypos = pagePos + bump;
+	} else {
+		ypos = 0;
+	}
+	
+	return visibleHeight - ypos;
 }
 
 /*

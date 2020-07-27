@@ -26,6 +26,8 @@
 - (void)insertBlock:(id<ContentBlock>)block;
 - (BOOL)insertFlowingBlock:(id<ContentBlock>)block withMargin:(NSInteger)margin;	/* Return NO if doesn't fit */
 
+- (NSInteger)bottomSpaceWithMargin:(NSInteger)margin;			/* Space at the bottom available for content */
+
 - (void)draw;
 
 @end

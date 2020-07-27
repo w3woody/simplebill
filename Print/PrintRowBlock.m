@@ -11,6 +11,11 @@
 
 @interface PrintRowBlock ()
 {
+	NSMutableArray<NSNumber *> *bars;
+	BOOL vertical;
+	NSInteger padding;
+	
+	NSColor *background;	/* Background color; nil if none set */
 	NSSize size;
 }
 @property (strong) NSMutableArray<ContentOffsetBlock *> *blocks;
@@ -18,32 +23,50 @@
 
 @implementation PrintRowBlock
 
-- (instancetype)init
+- (instancetype)initWithBackground:(NSColor *)backgroundColor padding:(NSInteger)p
 {
 	if (nil != (self = [super init])) {
 		self.blocks = [[NSMutableArray alloc] init];
-		size = CGSizeZero;
+
+		background = backgroundColor;
+		size.width = 0;
+		size.height = 0;
+		padding = p;
+		vertical = NO;
+		
+		bars = [[NSMutableArray alloc] init];
+		[bars addObject:@0];
 	}
 	return self;
 }
 
-- (void)insertColumn:(id<ContentBlock>)block
+- (NSInteger)insertColumn:(id<ContentBlock>)block withMargin:(NSInteger)m
 {
 	NSSize bsize = block.blockSize;
-	CGPoint pos = CGPointMake(0, size.width);
+	CGPoint pos = CGPointMake(size.width + m, padding);
 	
 	/*
-	 *	Update size based on the block. We assume block stack horizontally
-	 *	by their given size, but push the bottom
+	 *	Note that the margin supplied frames both left and right of the object.
+	 *	This is done on the assumption the border hairline will be drawn inbetween
 	 */
 	
-	size.width += bsize.width;
-	if (size.height < bsize.height) size.height = bsize.height;
+	NSInteger height = padding * 2 + bsize.height;
+	size.width += bsize.width + m * 2;
+	if (size.height < height) size.height = height;
 	
 	ContentOffsetBlock *b = [[ContentOffsetBlock alloc] init];
 	b.offset = pos;
 	b.block = block;
 	[self.blocks addObject:b];
+	
+	[bars addObject:@( size.width )];
+	
+	return size.width;				/* Return position of right border of block with margin */
+}
+
+- (void)showVerticalColumns:(BOOL)flag
+{
+	vertical = flag;
 }
 
 - (NSSize)blockSize
@@ -53,11 +76,29 @@
 
 - (void)drawAtOffset:(NSPoint)offset
 {
+	/*
+	 *	Draw the background color if set
+	 */
+
+	if (background) {
+		CGRect r = CGRectMake(offset.x, offset.y, size.width, size.height);
+		[background setFill];
+		NSRectFill(r);
+	}
+	
 	for (ContentOffsetBlock *b in self.blocks) {
 		NSPoint accum = b.offset;
 		accum.x += offset.x;
 		accum.y += offset.y;
-		[b.block drawAtOffset:b.offset];
+		[b.block drawAtOffset:accum];
+	}
+	
+	[NSColor.blackColor setFill];
+	if (vertical) {
+		for (NSNumber *n in bars) {
+			CGRect r = CGRectMake(offset.x + n.integerValue, offset.y, 0.25, size.height);
+			NSRectFill(r);
+		}
 	}
 }
 

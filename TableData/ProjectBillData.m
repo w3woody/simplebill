@@ -95,7 +95,7 @@
 	if ([tableColumn.identifier isEqualToString:@"paid"]) {
 		[self.database setIsPaid:[object boolValue] forBillAtIndex:row];
 	} else if ([tableColumn.identifier isEqualToString:@"notes"]) {
-		[self.database updateNote:[object stringValue] forBillAtIndex:row];
+		[self.database updateNote:(NSString *)object forBillAtIndex:row];
 	}
 }
 
