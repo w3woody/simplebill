@@ -7,7 +7,7 @@
 //
 
 #import "PrintPageFlow.h"
-#import "PrintBlock.h"
+#import "ContentOffsetBlock.h"
 
 @interface PrintPageFlow ()
 {
@@ -18,6 +18,9 @@
 	NSInteger visibleHeight;
 	NSInteger prevMargin;
 }
+
+@property (strong) NSMutableArray<ContentOffsetBlock *> *blocks;
+
 @end
 
 
@@ -43,21 +46,20 @@
  *	Note: we move the block to fit our page. That is, the block should be
  *	positioned relative to paper margins.
  */
-- (void)insertBlock:(PrintBlock *)block
+- (void)insertBlock:(id<ContentBlock>)block
 {
-	CGRect r = block.location;
-	r.origin.x += size.origin.x;
-	r.origin.y += size.origin.y;
-	block.location = r;
+	ContentOffsetBlock *b = [[ContentOffsetBlock alloc] init];
+	b.offset = size.origin;
+	b.block = block;
 
-	[self.blocks addObject:block];
+	[self.blocks addObject:b];
 }
 
 /*
  *	This will return NO if this doesn't fit. If that's the case, create a new
  *	page.
  */
-- (BOOL)insertFlowingBlock:(PrintBlock *)block withMargin:(NSInteger)margin
+- (BOOL)insertFlowingBlock:(id<ContentBlock>)block withMargin:(NSInteger)margin
 {
 	NSInteger ypos;
 	
@@ -73,16 +75,19 @@
 		ypos = 0;
 	}
 	
-	CGRect blockPos = block.location;
-	NSInteger bottom = ypos + (int)ceil(blockPos.size.height);
+	NSInteger bottom = ceil(ypos + block.blockSize.height);
 	if (bottom > visibleHeight) {
 		return NO;
 	}
 	
-	blockPos.origin.x += size.origin.x;
-	blockPos.origin.y = ypos + margins.top + size.origin.y;		/* Position object on our page */
-	block.location = blockPos;
-	[self.blocks addObject:block];
+	NSPoint pos;
+	pos.x = size.origin.x;
+	pos.y = ypos + margins.top + size.origin.y;
+	
+	ContentOffsetBlock *b = [[ContentOffsetBlock alloc] init];
+	b.offset = pos;
+	b.block = block;
+	[self.blocks addObject:b];
 	
 	pagePos = bottom;
 	prevMargin = margin;
@@ -96,8 +101,8 @@
 
 - (void)draw
 {
-	for (PrintBlock *block in self.blocks) {
-		[block draw];
+	for (ContentOffsetBlock *b in self.blocks) {
+		[b.block drawAtOffset:b.offset];
 	}
 }
 

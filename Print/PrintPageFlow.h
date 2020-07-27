@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "ContentBlock.h"
 
 /*
  *	This represents a page. Contents are assumed to "flow" from the top to
@@ -20,13 +21,10 @@
 
 @interface PrintPageFlow : NSObject
 
-@property (strong) NSMutableArray<PrintBlock *> *blocks;
-
 - (instancetype)initWithSize:(NSRect)size margins:(NSEdgeInsets)margins;
 
-- (void)insertBlock:(PrintBlock *)block;
-- (BOOL)insertFlowingBlock:(PrintBlock *)block withMargin:(NSInteger)margin;	/* Return NO if doesn't fit */
-
+- (void)insertBlock:(id<ContentBlock>)block;
+- (BOOL)insertFlowingBlock:(id<ContentBlock>)block withMargin:(NSInteger)margin;	/* Return NO if doesn't fit */
 
 - (void)draw;
 

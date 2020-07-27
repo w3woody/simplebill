@@ -140,6 +140,10 @@
 			r = CGRectMake(72,0,paperSize.width - 144,144);
 			block = [[PrintBlock alloc] initWithText:b.project.salutation attributes:normalTextAttr at:r];
 			[p insertFlowingBlock:block withMargin:24];
+			
+			/*
+			 *	 
+			 */
 		}
 		
 		/*

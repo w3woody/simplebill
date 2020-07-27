@@ -8,6 +8,12 @@
 
 #import "PrintBlock.h"
 
+@interface PrintBlock ()
+@property (strong) NSDictionary *attributes;
+@property (copy) NSString *text;
+@property (assign) NSRect location;
+@end
+
 @implementation PrintBlock
 
 - (instancetype)initWithText:(NSString *)text attributes:(NSDictionary *)attr at:(NSRect)r
@@ -27,9 +33,17 @@
 	return self;
 }
 
-- (void)draw
+- (NSSize)blockSize
 {
-	[self.text drawWithRect:self.location options:NSStringDrawingUsesLineFragmentOrigin attributes:self.attributes];
+	return self.location.size;
+}
+
+- (void)drawAtOffset:(NSPoint)offset
+{
+	NSRect r = self.location;
+	r.origin.x += offset.x;
+	r.origin.y += offset.y;
+	[self.text drawWithRect:r options:NSStringDrawingUsesLineFragmentOrigin attributes:self.attributes];
 }
 
 @end

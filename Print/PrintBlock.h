@@ -7,19 +7,15 @@
 //
 
 #import <AppKit/AppKit.h>
+#import "ContentBlock.h"
 
 /*
  *	This represents a block of text within a page. This assumes the block
  *	is entirely contained on the page and doesn't break.
  */
 
-@interface PrintBlock : NSObject
-@property (strong) NSDictionary *attributes;
-@property (copy) NSString *text;
-@property (assign) NSRect location;
+@interface PrintBlock : NSObject <ContentBlock>
 
 - (instancetype)initWithText:(NSString *)text attributes:(NSDictionary *)attr at:(NSRect)r;
-
-- (void)draw;
 
 @end
