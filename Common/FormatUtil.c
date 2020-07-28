@@ -73,7 +73,36 @@ void FormatAmount(uint32_t pennies, char *dest)
 	uint32_t dollars = pennies / 100;
 	uint32_t cents = pennies % 100;
 	
-	sprintf(dest,"$%d.%02d",(int)dollars,(int)cents);
+	/*
+	 *	Comma separate as needed
+	 */
+	 
+	if (dollars > 1000) {
+		printf("###");
+	}
+	
+	*dest++ = '$';
+	uint8_t pos = 1;
+	uint32_t f = 10;
+	while (f < dollars) {
+		f *= 10;
+		pos++;
+	}
+	f /= 10;
+	while (pos-- > 0) {
+		uint8_t c = dollars / f;
+		dollars %= f;
+		
+		*dest++ = '0' + c;
+		
+		if ((pos > 0) && ((pos % 3) == 0)) *dest++ = ',';
+		f /= 10;
+	}
+	
+	*dest++ = '.';
+	*dest++ = '0' + (cents / 10);
+	*dest++ = '0' + (cents % 10);
+	*dest++ = 0;
 }
 
 uint32_t ParseAmount(const char *value)

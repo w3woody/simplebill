@@ -177,7 +177,9 @@
 				GregorianNumberFormat(tr.dayCount, buffer);
 				[tb addCell:[NSString stringWithUTF8String:buffer] widthSpan:1];
 				
-				FormatHour(tr.billHours, buffer);
+				uint16_t h = tr.billHours;
+				if (h == 0) h = tr.hours;
+				FormatHour(h, buffer);
 				[tb addCell:[NSString stringWithUTF8String:buffer] widthSpan:1 attributes:rightTableAttr];
 				
 				[tb addCell:tr.itemDesc widthSpan:2];

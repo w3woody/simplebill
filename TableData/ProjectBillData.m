@@ -81,7 +81,7 @@
 		GregorianFormat((uint32_t)bdata.date,buffer);
 		return [NSString stringWithUTF8String:buffer];
 	} else if ([tableColumn.identifier isEqualToString:@"amount"]) {
-		FormatAmount((uint32_t)bdata.rate,buffer);
+		FormatAmount((uint32_t)bdata.totalBill,buffer);
 		return [NSString stringWithUTF8String:buffer];
 	} else if ([tableColumn.identifier isEqualToString:@"notes"]) {
 		return bdata.notes;
